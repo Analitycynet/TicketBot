@@ -36,7 +36,7 @@ public class TicketBot {
     public void init(String[] launchArgs) {
         instance = this;
         
-        System.out.println("Starting Bot, please wait...");
+        System.out.println("Czekaj kurwa, startuje");
         String filePath;
         try { filePath = new File(TicketBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().toString()).getParent(); } catch(Exception e) {e.printStackTrace(); System.out.println("Error getting file path, shutting down."); return;}
         
@@ -59,7 +59,7 @@ public class TicketBot {
         	System.exit(0);
         }
         
-        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.listening("for \"" + getPrefix() + "help\""));
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.listening(getPrefix() + "info\""));
         jda.addEventListener(new TicketListener());
     }
 

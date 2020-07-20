@@ -20,16 +20,16 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
 public enum CommandExecutor {
-    ADD("ADD", new Add()),
+    ADD("DODAJ", new Add()),
     BLACKLIST("BLACKLIST", new Blacklist()),
-    CLOSE("CLOSE", new Close()),
-    DISABLE("DISABLE", new Disable()),
-    ENABLE("ENABLE", new Enable()),
-    HELP("HELP", new Help()),
-    LEAVE("LEAVE", new Leave()),
+    CLOSE("ZAMKNIJ", new Close()),
+    DISABLE("WYŁĄCZ", new Disable()),
+    ENABLE("WŁĄCZ", new Enable()),
+    HELP("INFO", new Help()),
+    LEAVE("OPUŚĆ", new Leave()),
     NA("NA", new NA()),
     NP("NP", new NoPermission()),
-    REMOVE("REMOVE", new Remove()),
+    REMOVE("USUŃ", new Remove()),
     TICKET_CREATOR("TICKET_CREATOR", new TicketCreator()),
     ;
     

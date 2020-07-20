@@ -24,14 +24,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 public enum SupportType {
 
-    BAN("ban", "bn", new Ban()),
-    BILLING("billing", "blg", new Billing()),
+    BAN("ban", "apelacja", new Ban()),
+    BILLING("billing", "donacja", new Billing()),
     BUG("bug", "bg", new Bug()),
-    QUESTION("question", "qst", new Question()),
-    REQUEST("request", "rqst", new Request()),
-    SUGGEST("suggest", "sgt", new Suggest()),
-    SUPPORT("support", "spt", new Support()),
-    TICKET("ticket", "tkt", new dev.westernpine.ticketbot.supports.types.Ticket()),
+    QUESTION("question", "pytanie", new Question()),
+    REQUEST("request", "żądanie", new Request()),
+    SUGGEST("suggest", "sugestia", new Suggest()),
+    SUPPORT("support", "pomoc", new Support()),
+    TICKET("ticket", "ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
     ;
     
     @Getter
@@ -68,9 +68,9 @@ public enum SupportType {
     public static EnumSet<Permission> getPublicDeny() { return EnumSet.of(Permission.MESSAGE_READ); }
 
     public static Role getSupportRole(Guild guild) {
-        return (guild.getRolesByName("Support Specialist", false).isEmpty()
-                ? guild.createRole().setName("Support Specialist").complete()
-                : guild.getRolesByName("Support Specialist", false).get(0));
+        return (guild.getRolesByName("Support", false).isEmpty()
+                ? guild.createRole().setName("Support").complete()
+                : guild.getRolesByName("Support", false).get(0));
     }
     public static EnumSet<Permission> getSupportAllow() { return EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE); }
     public static EnumSet<Permission> getSupportDeny() { return EnumSet.noneOf(Permission.class); }

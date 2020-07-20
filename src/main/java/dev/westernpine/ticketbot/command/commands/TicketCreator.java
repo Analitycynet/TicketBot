@@ -46,7 +46,7 @@ public class TicketCreator implements Command {
         ServerTable table = new ServerTable(guild.getId());
         if(table.blacklistContains(user.getId())) {
             EmbedBuilder embed = Messenger.getEmbedFrame();
-            embed.setDescription(Emoji.CrossMark.getValue() + " **You are currently blacklisted from creating tickets.**");
+            embed.setDescription(Emoji.CrossMark.getValue() + " **W tej chwili nie możesz tworzyć zgłoszeń.**");
             embed.setColor(Color.RED);
             Messenger.sendEmbed(user, embed.build());
             return;
@@ -55,7 +55,7 @@ public class TicketCreator implements Command {
         SupportType type = SupportType.fromString(command);
         if(!table.getSupportType(type)) {
             EmbedBuilder embed = Messenger.getEmbedFrame();
-            embed.setDescription(Emoji.CrossMark.getValue() + " **That support type is currently unavailable.**");
+            embed.setDescription(Emoji.CrossMark.getValue() + " **Ten typ zgłoszeń nie jest obecnie aktywny.**");
             embed.setColor(Color.RED);
             Messenger.sendEmbed(user, embed.build());
             return;
@@ -63,7 +63,7 @@ public class TicketCreator implements Command {
         
         if(type.getTickets(guild, user.getId()).size() >= 5 && !Authenticator.isSupport(guild, user)) {
             EmbedBuilder embed = Messenger.getEmbedFrame();
-            embed.setDescription(Emoji.CrossMark.getValue() + " **You have too many tickets open under that type.**");
+            embed.setDescription(Emoji.CrossMark.getValue() + " **Masz za dużo otwartych zgłoszeń tego typu.**");
             embed.setColor(Color.RED);
             Messenger.sendEmbed(user, embed.build());
             return;

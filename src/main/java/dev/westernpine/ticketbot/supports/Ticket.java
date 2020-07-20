@@ -96,7 +96,7 @@ public class Ticket {
         .addPermissionOverride(SupportType.getSelfMember(guild), SupportType.getSelfAllow(), SupportType.getSelfDeny())
         .queue(ch -> {
             EmbedBuilder embed = Messenger.getEmbedFrame(ch.getGuild());
-            embed.setDescription(Emoji.PageFacingUp.getValue() + " **Ticket created!** \n\n" + type.getSupportType().getTicketCreatedMessage());
+            embed.setDescription(Emoji.PageFacingUp.getValue() + " **Zgłoszenie utworzone!** \n\n" + type.getSupportType().getTicketCreatedMessage());
             Messenger.sendEmbed((TextChannel) ch, embed.build());
             addUser(TicketBot.getInstance().getJda().getUserById(owner));
         });
@@ -117,9 +117,9 @@ public class Ticket {
             ch.createPermissionOverride(guild.getMember(user)).setAllow(SupportType.getSupportAllow()).setDeny(SupportType.getSupportDeny()).queue();
         }
         EmbedBuilder embed = Messenger.getEmbedFrame(guild);
-        embed.setDescription(Emoji.GreenCheck.getValue() + " **" + user.getName() + "** added to ticket!");
+        embed.setDescription(Emoji.GreenCheck.getValue() + " **" + user.getName() + "** został/a dodany/a do zgłoszenia!");
         Messenger.sendEmbed(ch, embed.build());
-        ch.sendMessage(user.getAsMention() + " Your ticket is ready.").queue(msg -> msg.delete().queue());
+        ch.sendMessage(user.getAsMention() + " Twoje zgłoszenie jest gotowe.").queue(msg -> msg.delete().queue());
     }
     
     public void removeUser(User user) {
@@ -129,7 +129,7 @@ public class Ticket {
         }
 
         EmbedBuilder embed = Messenger.getEmbedFrame(guild);
-        embed.setDescription(Emoji.CrossMark.getValue() + " **" + user.getName() + "** removed from ticket!");
+        embed.setDescription(Emoji.CrossMark.getValue() + " **" + user.getName() + "** usunął/eła Cię ze zgłoszenia!");
         Messenger.sendEmbed(ch, embed.build());
     }
     
@@ -143,13 +143,13 @@ public class Ticket {
         } catch(Exception e) {}
         
         EmbedBuilder embed = Messenger.getEmbedFrame(guild);
-        embed.setDescription(Emoji.Lock.getValue() + " Ticket closing in `20` seconds.");
+        embed.setDescription(Emoji.Lock.getValue() + " Zgłoszenie zostanie zamknięte za `10` sekund.");
         Messenger.sendEmbed(ch, embed.build());
         new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(20000L);
+					Thread.sleep(10000L);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

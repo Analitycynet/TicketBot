@@ -1,80 +1,131 @@
-package dev.westernpine.ticketbot.command;
+package dev.westernpine.ticketbot.supports;
 
-import dev.westernpine.ticketbot.authenticator.Authenticator;
-import dev.westernpine.ticketbot.command.commands.Add;
-import dev.westernpine.ticketbot.command.commands.Blacklist;
-import dev.westernpine.ticketbot.command.commands.Close;
-import dev.westernpine.ticketbot.command.commands.Disable;
-import dev.westernpine.ticketbot.command.commands.Enable;
-import dev.westernpine.ticketbot.command.commands.Help;
-import dev.westernpine.ticketbot.command.commands.Leave;
-import dev.westernpine.ticketbot.command.commands.NA;
-import dev.westernpine.ticketbot.command.commands.NoPermission;
-import dev.westernpine.ticketbot.command.commands.Remove;
-import dev.westernpine.ticketbot.command.commands.TicketCreator;
-import dev.westernpine.ticketbot.supports.SupportType;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+
+import dev.westernpine.common.uid.UID;
+import dev.westernpine.ticketbot.TicketBot;
+import dev.westernpine.ticketbot.supports.types.Ban;
+import dev.westernpine.ticketbot.supports.types.Billing;
+import dev.westernpine.ticketbot.supports.types.Bug;
+import dev.westernpine.ticketbot.supports.types.Question;
+import dev.westernpine.ticketbot.supports.types.Request;
+import dev.westernpine.ticketbot.supports.types.Suggest;
+import dev.westernpine.ticketbot.supports.types.Support;
 import lombok.Getter;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 
-public enum CommandExecutor {
-    ADD("dodaj", new Add()),
-    BLACKLIST("BLACKLIST", new Blacklist()),
-    CLOSE("zamknij", new Close()),
-    DISABLE("wyłącz", new Disable()),
-    ENABLE("włącz", new Enable()),
-    HELP("info", new Help()),
-    LEAVE("opuść", new Leave()),
-    NA("NA", new NA()),
-    NP("NP", new NoPermission()),
-    REMOVE("usuń", new Remove()),
-    TICKET_CREATOR("TICKET_CREATOR", new TicketCreator()),
+public enum SupportType {
+
+    BAN("ban", new Ban()),
+    BILLING("donacja", new Billing()),
+    BUG("bug", new Bug()),
+    QUESTION("pytanie", new Question()),
+    REQUEST("żądanie", new Request()),
+    SUGGEST("sugestia", new Suggest()),
+    SUPPORT("pomoc", new Support()),
+    TICKET("ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
     ;
 
     @Getter
-    private String identifier;
+    private String string;
 
     @Getter
-    private Command command;
+    private String abr;
 
-    CommandExecutor(String identifier, Command command) {
-        this.identifier = identifier;
-        this.command = command;
+    @Getter
+    private ISupportType supportType;
+
+    SupportType(String string, String abr, ISupportType supportType){
+        this.string = string;
+        this.abr = abr;
+        this.supportType = supportType;
     }
 
-    public static CommandExecutor getCommand(String cmd, Guild guild, User user) {
-        for(CommandExecutor ce : CommandExecutor.values()) {
-            if(ce.getIdentifier().equalsIgnoreCase(cmd)) {
+    @Override
+    public String toString() {
+        return this.string;
+    }
 
-                if(ce.getCommand().permissible()) {
-                    if(ce.getCommand().useRole()) {
-                        if(Authenticator.hasRole(guild, ce.getCommand().getRole(), user)) {
-                            return ce;
-                        } else {
-                            return NP;
-                        }
-                    }else {
-                        if(Authenticator.hasPermission(guild, ce.getCommand().getPermission(), user)) {
-                            return ce;
-                        } else {
-                            return NP;
-                        }
-                    }
-                } else {
-                    return ce;
-                }
-            } else if(SupportType.fromString(cmd) != null) {
-                return TICKET_CREATOR;
+    public static SupportType fromString(String string) {
+        for(SupportType type : SupportType.values()) {
+            if(type.getString().equalsIgnoreCase(string)) {
+                return type;
             }
         }
-        return NA;
+        return null;
     }
 
-    public void execute(Guild guild, User user, MessageChannel ch, Message msg, String command, String[] args) {
-        if(this.equals(CommandExecutor.NA))
-            return;
-        getCommand().execute(guild, user, ch, msg, command, args);
+    public static Role getPublicRole(Guild guild) { return guild.getPublicRole(); }
+    public static EnumSet<Permission> getPublicAllow() { return EnumSet.noneOf(Permission.class); }
+    public static EnumSet<Permission> getPublicDeny() { return EnumSet.of(Permission.MESSAGE_READ); }
+
+    public static Role getSupportRole(Guild guild) {
+        return (guild.getRolesByName("Support", false).isEmpty()
+                ? guild.createRole().setName("Support").complete()
+                : guild.getRolesByName("Support", false).get(0));
     }
+    public static EnumSet<Permission> getSupportAllow() { return EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE); }
+    public static EnumSet<Permission> getSupportDeny() { return EnumSet.noneOf(Permission.class); }
+
+    public static Member getSelfMember(Guild guild) { return guild.getMember(TicketBot.getInstance().getJda().getSelfUser()); }
+    public static EnumSet<Permission> getSelfAllow() { return EnumSet.of(Permission.MESSAGE_READ, Permission.MESSAGE_WRITE, Permission.MESSAGE_EMBED_LINKS, Permission.MANAGE_CHANNEL, Permission.MANAGE_ROLES, Permission.MESSAGE_MANAGE); }
+    public static EnumSet<Permission> getSelfDeny() { return EnumSet.noneOf(Permission.class); }
+
+    public void enable(Guild guild) {
+        getCategory(guild);
+    }
+
+    public Category getCategory(Guild guild) {
+        List<Category> cats = guild.getCategoriesByName(supportType.getCategoryName(), true);
+        String name = supportType.getCategoryName();
+        if (cats.isEmpty())
+            return (Category) guild.createCategory(name)
+                    .addPermissionOverride(getPublicRole(guild), getPublicAllow(), getPublicDeny())
+                    .addPermissionOverride(getSupportRole(guild), getSupportAllow(), getSupportDeny())
+                    .addPermissionOverride(getSelfMember(guild), getSelfAllow(), getSelfDeny())
+                    .complete();
+        else
+            return cats.get(0);
+    }
+
+    public List<Ticket> getTickets(Guild guild, String user) {
+        List<TextChannel> channels = getCategory(guild).getTextChannels();
+        List<Ticket> tickets = new ArrayList<>();
+        channels.stream().forEach(channel -> {
+            Ticket ticket = Ticket.from(channel);
+            if (ticket != null) {
+                if (ticket.getOwner().equals(user))
+                    tickets.add(ticket);
+            }
+        });
+        return tickets;
+    }
+
+    public boolean containsChannel(Guild guild, UID uid) {
+        Category cat = getCategory(guild);
+        List<TextChannel> channels = cat.getTextChannels();
+        if(!channels.isEmpty()) {
+            for(TextChannel ch : channels) {
+                if(UID.from(ch.getName()).equals(uid))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    public void disable(Guild guild) {
+        Category cat = getCategory(guild);
+        for(GuildChannel ch : cat.getChannels())
+            ch.delete().queue();
+        cat.delete().queue();
+    }
+
 }

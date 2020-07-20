@@ -129,7 +129,7 @@ public class Ticket {
         }
 
         EmbedBuilder embed = Messenger.getEmbedFrame(guild);
-        embed.setDescription(Emoji.CrossMark.getValue() + " **" + user.getName() + "** usunął/eła Cię ze zgłoszenia!");
+        embed.setDescription(Emoji.CrossMark.getValue() + " **" + user.getName() + "** został/a usunięty/a ze zgłoszenia!");
         Messenger.sendEmbed(ch, embed.build());
     }
     

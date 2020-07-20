@@ -9,7 +9,7 @@ public class Bug implements ISupportType {
 
     @Override
     public String getConfigPath() {
-        return "Enable Bug Reports";
+        return "Uruchom zgłoszenia wobec bugów";
     }
 
     @Override
@@ -19,12 +19,12 @@ public class Bug implements ISupportType {
 
     @Override
     public String getCategoryName() {
-        return Emoji.Bug.getValue() + " Bug Reports";
+        return Emoji.Bug.getValue() + " Bugi";
     }
 
     @Override
     public String getTicketCreatedMessage() {
-        return "Please describe the bug in detail, and how it was discovered.";
+        return "Proszę opisz bug który odkryłeś/aś oraz jak został odkryty.";
     }
 
 }

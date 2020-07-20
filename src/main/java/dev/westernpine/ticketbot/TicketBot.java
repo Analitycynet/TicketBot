@@ -59,7 +59,7 @@ public class TicketBot {
         	System.exit(0);
         }
         
-        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.listening(getPrefix() + "info\""));
+        jda.getPresence().setPresence(OnlineStatus.ONLINE, Activity.listening(getPrefix() + "info\"));
         jda.addEventListener(new TicketListener());
     }
 

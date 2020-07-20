@@ -24,14 +24,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 
 public enum SupportType {
 
-    BAN("ban", "apelacja", new Ban()),
-    BILLING("billing", "donacja", new Billing()),
-    BUG("bug", "bg", new Bug()),
-    QUESTION("question", "pytanie", new Question()),
-    REQUEST("request", "żądanie", new Request()),
-    SUGGEST("suggest", "sugestia", new Suggest()),
-    SUPPORT("support", "pomoc", new Support()),
-    TICKET("ticket", "ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
+    BAN("ban", new Ban()),
+    BILLING("donacja", new Billing()),
+    BUG("bug", new Bug()),
+    QUESTION("pytanie", new Question()),
+    REQUEST("żądanie", new Request()),
+    SUGGEST("sugestia", new Suggest()),
+    SUPPORT("pomoc", new Support()),
+    TICKET("ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
     ;
     
     @Getter

@@ -32,7 +32,7 @@ public enum SupportType {
 //    SUGGEST("suggest", "sugestia", new Suggest()),
 //    SUPPORT("support", "pomoc", new Support()),
 //    TICKET("ticket", "ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
-BAN("ban", "bn", new Ban()),
+    BAN("ban", "bn", new Ban()),
     BILLING("billing", "blg", new Billing()),
     BUG("bug", "bg", new Bug()),
     QUESTION("question", "qst", new Question()),

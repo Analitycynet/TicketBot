@@ -43,7 +43,7 @@ public enum CommandExecutor {
     NP("NP", new NoPermission()),
     REMOVE("REMOVE", new Remove()),
     TICKET_CREATOR("TICKET_CREATOR", new TicketCreator()),
-    ''
+    ;
 
     @Getter
     private String identifier;

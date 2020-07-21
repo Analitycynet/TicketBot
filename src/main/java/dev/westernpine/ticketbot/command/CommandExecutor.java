@@ -19,19 +19,31 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 
+//public enum CommandExecutor {
+//    ADD("dodaj", new Add()),
+//    BLACKLIST("BLACKLIST", new Blacklist()),
+//    CLOSE("koniec", new Close()),
+//    DISABLE("wyłącz", new Disable()),
+//    ENABLE("włącz", new Enable()),
+//    HELP("info", new Help()),
+//    LEAVE("opuść", new Leave()),
+//    NA("NA", new NA()),
+//    NP("NP", new NoPermission()),
+//    REMOVE("usuń", new Remove()),
+//    TICKET_CREATOR("TICKET_CREATOR", new TicketCreator()),
 public enum CommandExecutor {
-    ADD("dodaj", new Add()),
+    ADD("ADD", new Add()),
     BLACKLIST("BLACKLIST", new Blacklist()),
-    CLOSE("zamknij", new Close()),
-    DISABLE("wyłącz", new Disable()),
-    ENABLE("włącz", new Enable()),
-    HELP("info", new Help()),
-    LEAVE("opuść", new Leave()),
+    CLOSE("CLOSE", new Close()),
+    DISABLE("DISABLE", new Disable()),
+    ENABLE("ENABLE", new Enable()),
+    HELP("HELP", new Help()),
+    LEAVE("LEAVE", new Leave()),
     NA("NA", new NA()),
     NP("NP", new NoPermission()),
-    REMOVE("usuń", new Remove()),
+    REMOVE("REMOVE", new Remove()),
     TICKET_CREATOR("TICKET_CREATOR", new TicketCreator()),
-    ;
+    ''
 
     @Getter
     private String identifier;

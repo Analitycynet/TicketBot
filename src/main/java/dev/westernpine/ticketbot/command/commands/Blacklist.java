@@ -54,8 +54,8 @@ public class Blacklist implements Command {
             return;
         }
         
-        boolean add = args[0].equalsIgnoreCase("dodaj");
-        boolean remove = args[0].equalsIgnoreCase("usuń");
+        boolean add = args[0].equalsIgnoreCase("add");
+        boolean remove = args[0].equalsIgnoreCase("remove");
         if(add == remove) {
             EmbedBuilder embed = Messenger.getEmbedFrame();
             embed.setDescription(Emoji.CrossMark.getValue() + " **Invalid action type.**");

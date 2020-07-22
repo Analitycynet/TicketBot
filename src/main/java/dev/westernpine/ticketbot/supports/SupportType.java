@@ -33,13 +33,13 @@ public enum SupportType {
 //    SUPPORT("support", "pomoc", new Support()),
 //    TICKET("ticket", "ogólne", new dev.westernpine.ticketbot.supports.types.Ticket()),
     BAN("ban", "bn", new Ban()),
-    BILLING("billing", "blg", new Billing()),
+    BILLING("donacje", "blg", new Billing()),
     BUG("bug", "bg", new Bug()),
-    QUESTION("question", "qst", new Question()),
-    REQUEST("request", "rqst", new Request()),
-    SUGGEST("suggest", "sgt", new Suggest()),
-    SUPPORT("support", "spt", new Support()),
-    TICKET("ticket", "tkt", new dev.westernpine.ticketbot.supports.types.Ticket()),
+    QUESTION("pytanie", "qst", new Question()),
+    REQUEST("żądanie", "rqst", new Request()),
+    SUGGEST("sugestia", "sgt", new Suggest()),
+    SUPPORT("pomoc", "spt", new Support()),
+    TICKET("zgłoszenie", "tkt", new dev.westernpine.ticketbot.supports.types.Ticket()),
     ;
 
     @Getter
